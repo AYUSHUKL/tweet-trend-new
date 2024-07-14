@@ -11,7 +11,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/AYUSHUKL/tweet-trend-new.git'
+                script {
+                    try {
+                        checkout([$class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [],
+                            submoduleCfg: [],
+                            userRemoteConfigs: [[url: 'https://github.com/AYUSHUKL/tweet-trend-new.git']]
+                        ])
+                    } catch (Exception e) {
+                        echo "Git checkout failed: ${e.message}"
+                        error("Stopping pipeline due to checkout failure")
+                    }
+                }
             }
         }
         stage('Build') {
