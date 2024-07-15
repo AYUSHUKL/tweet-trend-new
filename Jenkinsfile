@@ -11,7 +11,7 @@ environment {
         stage('build') {
             steps {
                 echo "build code"
-                sh 'mvn clean deploy'
+                sh 'mvn clean'
             }
         }
     }
